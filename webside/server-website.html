@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G&B 服务器 - 法郎与成就娱乐</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            padding: 10px;
+        }
+
+        .search-box i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card li:last-child {
+            border-bottom: none;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            opacity: 0.8;
+            margin-top: 60px;
+        }
+
+        .owner-section {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .section-title i {
+            color: #ffd700;
+            margin-right: 15px;
+        }
+
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quote-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .quote-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .quote-card .fa-quote-left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .quote-card .fa-quote-right {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            line-height: 1.4;
+        }
+
+        .quote-author {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        /* 增强动画效果 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary-color); }
+        }
+        
+        .animated-title {
+            overflow: hidden;
+            border-right: 3px solid var(--primary-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 1s ease-out forwards;
+        }
+        
+        .search-box {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .search-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .screenshot-btn {
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .screenshot-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .screenshot-btn:active {
+            transform: translateY(0);
+        }
+
+        .quotes-btn {
+            background: linear-gradient(135deg, #f093fb, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .quotes-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #764ba2, #f093fb);
+        }
+
+        .quotes-btn:active {
+            transform: translateY(0);
+        }
+
+        .external-btn {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .external-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+        }
+
+        .external-btn:active {
+            transform: translateY(0);
+        }
+        
+        .card {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        
+        .contact-item {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .quote-card {
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        
+        .quote-card:hover {
+            transform: rotateY(10deg) scale(1.05);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .screenshot-section {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .screenshot-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .screenshot-caption {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .quotes-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .quote-text {
+                font-size: 1.3rem;
+            }
+            
+            .quote-card {
+                padding: 30px 20px;
+            }
+            
+            .screenshot-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .screenshot-card {
+                padding: 15px;
+            }
+            
+            .screenshot-card img {
+                height: 180px;
+            }
+            
+            .screenshot-caption {
+                font-size: 1.1rem;
+            }
+            
+            .screenshot-btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+                margin-top: 15px;
+                margin-left: 0;
+                margin-right: 10px;
+            }
+            
+            .quotes-btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+                margin-top: 15px;
+                margin-left: 0;
+                margin-right: 10px;
+            }
+            
+            .external-btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+                margin-top: 15px;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="animated-title">G&B 服务器</h1>
+            <p class="slide-in-left">专业法郎与成就娱乐服务器</p>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="搜索服务器信息...">
+            </div>
+            <button id="viewScreenshots" class="screenshot-btn">
+                <i class="fas fa-camera"></i> 查看截图
+            </button>
+            <button id="viewQuotes" class="quotes-btn">
+                <i class="fas fa-quote-right"></i> 查看语录
+            </button>
+            <button id="externalLink" class="external-btn">
+                <i class="fas fa-external-link-alt"></i> FAQ
+            </button>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2><i class="fas fa-info-circle"></i> 服务器简介</h2>
+                <p>欢迎来到 <span class="highlight">G&B 服务器</span>！我们是一个专注于法郎刷取、成就解锁和娱乐体验的专业服务器。</p>
+                <p>服务器已稳定运行 <span class="highlight">一个月</span>，致力于为玩家提供最佳的游戏体验。</p>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-gamepad"></i> 服务内容</h2>
+                <ul>
+                    <li><i class="fas fa-coins"></i> 专业法郎刷取服务</li>
+                    <li><i class="fas fa-trophy"></i> 成就解锁与指导</li>
+                    <li><i class="fas fa-crown"></i> 约翰刷取服务</li>
+                    <li><i class="fas fa-users"></i> 娱乐模式与社交活动</li>
+                    <li><i class="fas fa-infinity"></i> 无尽35波挑战</li>
+                    <li><i class="fas fa-ghost"></i> 刷万圣节成就</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-clock"></i> 开放时间</h2>
+                <p><strong>日常开放时间：</strong></p>
+                <ul>
+                    <li>早上：8:00 - 9:00</li>
+                    <li>晚上：10:00 - 11:00（可能稍晚）</li>
+                    <li>关闭时间：午夜 12:00</li>
+                </ul>
+                <p><em>具体服务器名称请关注群内通知</em></p>
+            </div>
+        </div>
+
+        <div class="owner-section" id="quotes-section">
+            <h2 class="section-title floating"><i class="fas fa-crown"></i> 闪光语录🤓</h2>
+            
+            <div class="quotes-grid">
+                <div class="quote-card">
+                    <i class="fas fa-quote-left"></i>
+                    <p class="quote-text">僵尸一日不绝，我誓不为人！</p>
+                    <p class="quote-author">—— CN_you95</p>
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                
+                <div class="quote-card">
+                    <i class="fas fa-quote-left"></i>
+                    <p class="quote-text">服主左脑搏击右脑——把自己ban了</p>
+                    <p class="quote-author">—— LOL</p>
+                    <i class="fas fa-quote-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="screenshot-section" id="screenshot-section">
+            <h2 class="section-title floating"><i class="fas fa-camera"></i> 游戏截图</h2>
+            <div class="screenshot-grid">
+                <div class="screenshot-card">
+                    <img src="根本哈根-游戏截图.png" alt="根本哈根游戏截图" loading="lazy">
+                    <p class="screenshot-caption">根本哈根</p>
+                </div>
+                <div class="screenshot-card">
+                    <img src="罗斯科夫-游戏截图.png" alt="罗斯科夫游戏截图" loading="lazy">
+                    <p class="screenshot-caption">罗斯科夫</p>
+                </div>
+                <div class="screenshot-card">
+                    <img src="圣塞巴斯蒂安-游戏截图.png" alt="圣塞巴斯蒂安游戏截图" loading="lazy">
+                    <p class="screenshot-caption">圣塞巴斯蒂安</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <div class="contact-item">
+                <h3><i class="fas fa-users"></i> 交流群</h3>
+                <p>1063475674</p>
+            </div>
+            <div class="contact-item">
+                <h3><i class="fas fa-user-shield"></i> 服主</h3>
+                <p>CN_you95</p>
+            </div>
+            <div class="contact-item">
+                <h3><i class="fas fa-code"></i> 网页作者</h3>
+                <p>星辰大海OvO</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 星辰大海OvO(Xc_TU4). 所有权利保留.</p>
+        </div>
+    </div>
+
+            <script>
+        // 搜索功能实现
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.card');
+        const viewScreenshotsBtn = document.getElementById('viewScreenshots');
+        const viewQuotesBtn = document.getElementById('viewQuotes');
+        const externalLinkBtn = document.getElementById('externalLink');
+        const screenshotSection = document.getElementById('screenshot-section');
+        const quotesSection = document.getElementById('quotes-section');
+
+        // 查看截图按钮功能
+        viewScreenshotsBtn.addEventListener('click', function() {
+            screenshotSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // 添加高亮效果
+            screenshotSection.style.animation = 'highlightSection 2s ease';
+            
+            // 2秒后移除高亮效果
+            setTimeout(() => {
+                screenshotSection.style.animation = '';
+            }, 2000);
+            
+            // 确保按钮保持可见状态
+            this.style.opacity = '1';
+            this.style.transform = 'translateY(0)';
+        });
+
+        // 查看语录按钮功能
+        viewQuotesBtn.addEventListener('click', function() {
+            quotesSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // 添加高亮效果
+            quotesSection.style.animation = 'highlightSection 2s ease';
+            
+            // 2秒后移除高亮效果
+            setTimeout(() => {
+                quotesSection.style.animation = '';
+            }, 2000);
+            
+            // 确保按钮保持可见状态
+            this.style.opacity = '1';
+            this.style.transform = 'translateY(0)';
+        });
+
+        // 外部链接按钮功能 - 跳转到指定网页
+        externalLinkBtn.addEventListener('click', function() {
+            // 这里可以修改为你想要跳转的网址
+            window.open('https://cerulean-concha-35116c.netlify.app/', '_blank');
+            
+            // 添加点击反馈动画，确保动画结束后重置状态
+            this.style.animation = 'buttonPulse 0.5s ease';
+            setTimeout(() => {
+                this.style.animation = '';
+                // 确保按钮保持可见状态
+                this.style.opacity = '1';
+                this.style.transform = 'translateY(0)';
+            }, 500);
+        });
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.style.animation = 'bounceIn 0.6s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // 添加更多动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            @keyframes fadeInScale {
+                from { opacity: 0; transform: scale(0.8) translateY(30px); }
+                to { opacity: 1; transform: scale(1) translateY(0); }
+            }
+            
+            @keyframes glow {
+                0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+                50% { box-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
+            }
+            
+            @keyframes highlightSection {
+                0% { background: rgba(102, 126, 234, 0.1); }
+                50% { background: rgba(102, 126, 234, 0.3); }
+                100% { background: rgba(102, 126, 234, 0.1); }
+            }
+            
+            @keyframes buttonPulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(0.95); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 页面加载动画增强
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标题动画
+            const header = document.querySelector('.header');
+            header.style.animation = 'fadeInScale 1.2s ease-out forwards';
+            
+            // 搜索框动画
+            const searchBox = document.querySelector('.search-box');
+            setTimeout(() => {
+                searchBox.style.animation = 'fadeInScale 0.8s ease-out 0.3s both';
+            }, 300);
+            
+            // 按钮动画
+            setTimeout(() => {
+                viewScreenshotsBtn.style.animation = 'fadeInScale 0.8s ease-out 0.5s both';
+                viewQuotesBtn.style.animation = 'fadeInScale 0.8s ease-out 0.6s both';
+                externalLinkBtn.style.animation = 'fadeInScale 0.8s ease-out 0.7s both';
+            }, 500);
+            
+            // 卡片交错动画
+            setTimeout(() => {
+                cards.forEach((card, index) => {
+                    card.style.animation = `fadeInScale 0.6s ease-out ${index * 0.15}s both`;
+                });
+            }, 600);
+            
+            // 语录卡片动画
+            const quoteCards = document.querySelectorAll('.quote-card');
+            setTimeout(() => {
+                quoteCards.forEach((card, index) => {
+                    card.style.animation = `slideInLeft 0.8s ease-out ${index * 0.2 + 1}s both`;
+                });
+            }, 800);
+            
+            // 联系信息动画
+            const contactItems = document.querySelectorAll('.contact-item');
+            setTimeout(() => {
+                contactItems.forEach((item, index) => {
+                    item.style.animation = `slideInRight 0.6s ease-out ${index * 0.1 + 1.5}s both`;
+                });
+            }, 1200);
+            
+            // 截图卡片动画
+            const screenshotCards = document.querySelectorAll('.screenshot-card');
+            setTimeout(() => {
+                screenshotCards.forEach((card, index) => {
+                    card.style.animation = `fadeInScale 0.8s ease-out ${index * 0.2 + 1.8}s both`;
+                });
+            }, 1400);
+            
+            // 添加滚动触发动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, observerOptions);
+            
+            // 观察所有卡片和元素
+            document.querySelectorAll('.card, .quote-card, .contact-item, .screenshot-card').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // 鼠标移动视差效果
+            document.addEventListener('mousemove', function(e) {
+                const x = (e.clientX / window.innerWidth) * 20 - 10;
+                const y = (e.clientY / window.innerHeight) * 20 - 10;
+                
+                document.querySelector('.header').style.transform = `translate(${x * 0.5}px, ${y * 0.5}px)`;
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+            });
+        });
+        
+        // 添加点击特效
+        document.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: fixed;
+                width: 20px;
+                height: 20px;
+                background: radial-gradient(circle, rgba(102,126,234,0.6) 0%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                left: ${e.clientX - 10}px;
+                top: ${e.clientY - 10}px;
+                animation: rippleEffect 0.6s ease-out forwards;
+            `;
+            
+            const rippleStyle = document.createElement('style');
+            rippleStyle.textContent = `
+                @keyframes rippleEffect {
+                    0% { transform: scale(1); opacity: 1; }
+                    100% { transform: scale(10); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(rippleStyle);
+            
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+        
+        // 截图点击放大功能
+        const screenshotCards = document.querySelectorAll('.screenshot-card');
+        screenshotCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const img = this.querySelector('img');
+                const src = img.src;
+                const alt = img.alt;
+                
+                // 创建模态框
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.9);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                    animation: fadeIn 0.3s ease;
+                `;
+                
+                const modalImg = document.createElement('img');
+                modalImg.src = src;
+                modalImg.alt = alt;
+                modalImg.style.cssText = `
+                    max-width: 90%;
+                    max-height: 90%;
+                    border-radius: 10px;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+                    animation: scaleIn 0.3s ease;
+                `;
+                
+                modal.appendChild(modalImg);
+                document.body.appendChild(modal);
+                
+                // 添加关闭功能
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.style.animation = 'fadeOut 0.3s ease forwards';
+                        setTimeout(() => modal.remove(), 300);
+                    }
+                });
+                
+                // 添加键盘关闭功能
+                const closeModal = function(e) {
+                    if (e.key === 'Escape') {
+                        modal.style.animation = 'fadeOut 0.3s ease forwards';
+                        setTimeout(() => modal.remove(), 300);
+                        document.removeEventListener('keydown', closeModal);
+                    }
+                };
+                document.addEventListener('keydown', closeModal);
+            });
+        });
+        
+        // 添加模态框动画样式
+        const modalStyles = document.createElement('style');
+        modalStyles.textContent = `
+            @keyframes scaleIn {
+                from { transform: scale(0.8); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(modalStyles);
+    </script>
+</body>
+</html>
